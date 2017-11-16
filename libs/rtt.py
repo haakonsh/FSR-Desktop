@@ -76,45 +76,46 @@ class RTT(object):
         @return None
         """
         try:
-            while self.alive:
-                try:
-                    self.callback(self.nrfjprog.read(address, data_length))
+       
+            try:
 
-                except AttributeError as attre:
-                    print('Could not read device memory at address:%d with length %d. \n AttributeError: %s' % (address, data_length, str(attre)))
-                    # RTT module reported error upon exit
-                    pass
+                self.callback(self.nrfjprog.read(address, data_length))
 
-                except Exception as e:
-                    print('Exception: %s' % e)
-                    print ("Lost connection, retrying for 10 times")
-                    print ("Reconnecting...")
-                    connected = False
-                    tries = 0
-                    while tries != 10:
-                        try:
-                            print tries
-                            time.sleep(0.6)
-                            self.nrfjprog.close()
-                            self.nrfjprog = API.API('NRF52')
-                            self.nrfjprog.open()
-                            self.nrfjprog.connect_to_emu_without_snr(jlink_speed_khz=JLINK_SPEED_KHZ)
-                            self.nrfjprog.sys_reset()
-                            self.nrfjprog.go()
-                            self.nrfjprog.rtt_start()
-                            time.sleep(1)
-                            print ("Reconnected.")
-                            connected = True
-                            break
+            except AttributeError as attre:
+                print('Could not read device memory at address:%d with length %d. \n AttributeError: %s' % (address, data_length, str(attre)))
+                # RTT module reported error upon exit
+                pass
 
-                        except Exception as e:
-                            print ("Reconnecting...")
-                            tries += 1
-                            self.alive = connected
-                    if connected:
-                        self.alive = True
-                    else:
-                        raise Exception("Failed to reconnect")
+            except Exception as e:
+                print('Exception: %s' % e)
+                print ("Lost connection, retrying for 10 times")
+                print ("Reconnecting...")
+                connected = False
+                tries = 0
+                while tries != 10:
+                    try:
+                        print tries
+                        time.sleep(0.6)
+                        self.nrfjprog.close()
+                        self.nrfjprog = API.API('NRF52')
+                        self.nrfjprog.open()
+                        self.nrfjprog.connect_to_emu_without_snr(jlink_speed_khz=JLINK_SPEED_KHZ)
+                        self.nrfjprog.sys_reset()
+                        self.nrfjprog.go()
+                        self.nrfjprog.rtt_start()
+                        time.sleep(1)
+                        print ("Reconnected.")
+                        connected = True
+                        break
+
+                    except Exception as e:
+                        print ("Reconnecting...")
+                        tries += 1
+                        self.alive = connected
+                if connected:
+                    self.alive = True
+                else:
+                    raise Exception("Failed to reconnect")
 
         except Exception, e:
 

@@ -4,11 +4,11 @@ try:
         print("Wrong Python architecture, please install 32bit version of Python")
         input("Press any key to exit...")
         exit()
-    import pynrfjprog
-    import libs.rtt as rtt
-    import libs.FSR_structure as fsr
+
+    from libs.Device import Device
+    import libs.QtGUI as GUI
     import sys
-    import numpy as np
+    from time import sleep
 
     # Check for python version error
     if sys.version_info[0] != 2:
@@ -30,28 +30,26 @@ except ValueError as e:
 NUMBER_OF_SENSORS = 36
 NUMBER_OF_SAMPLES = 512
 HEADER_LENGTH = 4  # Header length in bytes, given by the C struct 'fsr_field_t, 3 bytes payload and 1 byte padding
+ADDRESS = 0x0040000  # Address in device flash where the FSR structure is located.
+
 
 if __name__ == '__main__':
+    
+    device = Device(number_of_sensors = NUMBER_OF_SENSORS,
+                    number_of_samples = NUMBER_OF_SAMPLES,
+                    header_length = HEADER_LENGTH,
+                    read_address = ADDRESS)
+    
+    application = GUI.guiAppInit()
+    window = GUI.Window()
+    
+    GUI.samplesToGui(device = device,
+                     qt_app = window,
+                     number_of_sensors = NUMBER_OF_SENSORS,
+                     number_of_samples = NUMBER_OF_SAMPLES)
+    
+    sys.exit(application.exec_())
+        
+    
+    
 
-    addr = 0x0040000
-    length = (NUMBER_OF_SAMPLES * 2 + HEADER_LENGTH) * NUMBER_OF_SENSORS
-
-    print("FSR test initializing...")
-    sensor = fsr.Sensor(number_of_sensors = NUMBER_OF_SENSORS,
-                        number_of_samples = NUMBER_OF_SAMPLES,
-                        header_length = HEADER_LENGTH)
-
-    ''' Connect and read all initialization data '''
-    try:
-        Rtt = rtt.RTT(sensor.rtt_handler)
-    except Exception as e:
-        print("Unable to connect to the device, check debugger connection and make sure the device is flashed.")
-        print(str(e))
-        exit()
-    try:
-        Rtt.read(address = addr, data_length = length)
-
-    except Exception as e:
-        print("Unable to read to the device.")
-        print(str(e))
-        exit()

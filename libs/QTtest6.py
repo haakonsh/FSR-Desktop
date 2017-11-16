@@ -120,7 +120,7 @@ class HexGridWidget(QtGui.QWidget):
 
 def run():
     app = QtGui.QApplication(sys.argv)
-    gui = Window()
+    self.gui = Window()
     sys.exit(app.exec_())
 
 

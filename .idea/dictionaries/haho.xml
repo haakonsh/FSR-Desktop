@@ -6,6 +6,7 @@
       <w>catched</w>
       <w>jlink</w>
       <w>nrfjprog</w>
+      <w>pynrfjprog</w>
       <w>segger</w>
       <w>struct</w>
     </words>
