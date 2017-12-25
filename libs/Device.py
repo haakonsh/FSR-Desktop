@@ -1,6 +1,7 @@
 try:
-    import libs.Interface as Interface
-    import libs.DataProcessing as process
+    import Interface
+    import DataProcessing as process
+    import math
     
 except ImportError as ie:
     print (str(ie))
@@ -36,15 +37,14 @@ class Device(object):
         """
         self.read_length = (self.header_length + self.number_of_samples * 2) * self.number_of_samples
         
-        self.data_buffer = None  # Used to hold the byte array that is read from the device
-
         self.samples = []  # A list of numpy arrays, containing the samples of numpy.int16 type
         self.headers = [0 for n in range(0, self.number_of_sensors)]
         
         self.interface = self.interfaceInit()
-        
-        self.readData()
-        self.processData()
+
+        self.data_buffer = self.readDeviceData()
+        self.processData(self.data_buffer)
+        # self.nonlinearToLinear()
 
     def interfaceInit(self):
         """
@@ -61,23 +61,36 @@ class Device(object):
             exit()
         return interface
 
-    def readData(self):
+    def readDeviceData(self):
         """
         Reads the devices memory at read_address and of read_length.
         Data is processed by calling 'processData'
         """
-        self.data_buffer = self.interface.read(address = self.read_address, data_length = self.read_length)
+        return self.interface.read(address = self.read_address, data_length = self.read_length)
 
     def processData(self, data):
         """
         Extracts headers and samples from the data read from the device, and Maps the headers and samples to their
         respective sensor number as given by the 'sensor number' field ('0') in the header.
         """
-        headers = process.extractHeaders(data)
-        samples = process.extractSamples(data)
+        headers = process.extractHeaders(byte_array = data,
+                                         number_of_sensors = self.number_of_sensors,
+                                         number_of_samples = self.number_of_samples,
+                                         header_length = self.header_length)
+        
+        samples = process.extractSamples(byte_array = data,
+                                         number_of_sensors = self.number_of_sensors,
+                                         number_of_samples = self.number_of_samples,
+                                         header_length = self.header_length)
 
         self.headers, self.samples = process.mapDataToSensors(headers = headers,
                                                               samples = samples,
                                                               number_of_sensors = self.number_of_sensors)
         
+    def nonlinearToLinear(self):
+        for i in range(0, self.number_of_sensors):
+            for j in range(0, self.number_of_samples):
+                x = float(self.samples[i][j])
+                magic_number = 1.0715*10**-3
+                self.samples[i][j] = int((x * magic_number) * math.exp(x * magic_number))
 

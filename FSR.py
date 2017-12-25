@@ -8,8 +8,7 @@ try:
     from libs.Device import Device
     import libs.QtGUI as GUI
     import sys
-    from time import sleep
-
+    
     # Check for python version error
     if sys.version_info[0] != 2:
         raise ValueError('Version error:\n \
@@ -41,7 +40,7 @@ if __name__ == '__main__':
                     read_address = ADDRESS)
     
     application = GUI.guiAppInit()
-    window = GUI.Window()
+    window = GUI.Window(NUMBER_OF_SENSORS)
     
     GUI.samplesToGui(device = device,
                      qt_app = window,

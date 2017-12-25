@@ -33,10 +33,18 @@ def samplesToGui(device, number_of_sensors, number_of_samples, qt_app = None):
     try:
         color_list = [0] * number_of_sensors
         
+        
         for i in range(0, number_of_samples):
             for j in range(0, number_of_sensors):
-                color_list[j] = QtGui.QBrush(QtGui.QColor((device.samples[j][i] + 4096) * 2048))
-                # 2^12bit = 4096. Adding this number shifts the value range into positive integers only.
+                hue = (device.samples[j][i]) + 60
+                # By adding 60(degrees) to the hue i ensure that max/min values does not get represented by the same
+                # color.
+                
+                temp_color = QtGui.QColor()
+                temp_color.setHsv(hue, 255, 255, 255)  # saturation[j][i], 255, 255)
+                temp_brush = QtGui.QBrush(temp_color)
+                color_list[j] = temp_brush
+                
             # TODO Call HexGridWidget.updateColor(colorList)
             qt_app.display.updateColors(color_list)
             qt_app.display.repaint()

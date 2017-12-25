@@ -44,8 +44,6 @@ class Instance(object):
         except Exception as e:
             print('Could not connect to SEGGER debugger chip! Exception: %s' % str(e))
             raise
-        # TODO Do I really need to sleep for a whole second?
-        time.sleep(1)
         
         print('Connected to device')
     
@@ -111,9 +109,7 @@ class Instance(object):
                         self.nrfjprog.connect_to_emu_without_snr(jlink_speed_khz = JLINK_SPEED_KHZ)
                         self.nrfjprog.sys_reset()
                         self.nrfjprog.go()
-                        # TODO Do I really need to start rtt, and sleep for a whole second?
-                        self.nrfjprog.rtt_start()
-                        time.sleep(1)
+                        
                         print ("Reconnected.")
                         connected = True
                         break
