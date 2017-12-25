@@ -1,6 +1,6 @@
 try:
     import Interface
-    import DataProcessing as process
+    from libs import DataProcessing as process
     import math
     
 except ImportError as ie:
