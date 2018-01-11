@@ -63,6 +63,7 @@ def extractSamples(byte_array, number_of_sensors, number_of_samples, header_leng
                                                 offset = offset)
                 samples[i] = samples[i] + 1400
                 # +/- 1400 is max/min values. Add 1400 to create a positive integer range.
+                # TODO Encountered values of +/- 1900 in the "dirty" PSR prototype
                 
             except Exception as error:
                 raise RuntimeError('Could not copy data into numpy array. Error: %s' % error)

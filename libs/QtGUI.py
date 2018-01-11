@@ -31,6 +31,7 @@ def guiAppInit():
 
 def samplesToGui(device, number_of_sensors, number_of_samples, qt_app = None):
     try:
+        
         color_list = [0] * number_of_sensors
         
         
@@ -59,6 +60,10 @@ def samplesToGui(device, number_of_sensors, number_of_samples, qt_app = None):
 class Window(QtGui.QMainWindow):
     def __init__(self, number_of_hexagons, parent = None):
         super(Window, self).__init__(parent)
+        
+        self.number_of_sensors = number_of_hexagons
+        self.number_of_samples = 512  # TODO how did you get this number?
+        
         
         self.setUpdatesEnabled(True)    # Needed in order to trigger the paintEvent of a QWidget
         self.setGeometry(100, 35, 750, 940)     # (pos x, pos y, width, height)
@@ -110,6 +115,9 @@ class Window(QtGui.QMainWindow):
     def reset(self):
         print ("Clicked Reset!")
         #TODO Reset playback
+        for i in range(0, self.number_of_samples):
+            self.display.repaint()
+            sleep(0.02)
 
 
 class HexGridWidget(QtGui.QWidget):
