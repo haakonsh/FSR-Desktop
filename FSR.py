@@ -40,12 +40,11 @@ if __name__ == '__main__':
                     read_address = ADDRESS)
     
     application = GUI.guiAppInit()
-    window = GUI.Window(NUMBER_OF_SENSORS)
+    window = GUI.Window(number_of_hexagons = device.number_of_sensors,
+                        number_of_samples = len(device.samples[0]))
     
     GUI.samplesToGui(device = device,
-                     qt_app = window,
-                     number_of_sensors = NUMBER_OF_SENSORS,
-                     number_of_samples = NUMBER_OF_SAMPLES)
+                     qt_app = window,)
     
     sys.exit(application.exec_())
         

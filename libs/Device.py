@@ -82,15 +82,20 @@ class Device(object):
                                          number_of_sensors = self.number_of_sensors,
                                          number_of_samples = self.number_of_samples,
                                          header_length = self.header_length)
+        
+        samples = process.UnityBasedNormalization(samples = samples,
+                                                  number_of_sensors = self.number_of_sensors)
+        
+        samples = process.convertToUint16t(samples = samples,
+                                           number_of_sensors = self.number_of_sensors)
+
+        samples = process.averagingFilter(samples = samples,
+                                          number_of_sensors = self.number_of_sensors,
+                                          width_of_filter = 0)
+        
+        samples = process.scaleSamples(samples = samples,
+                                       number_of_sensors = self.number_of_sensors)
 
         self.headers, self.samples = process.mapDataToSensors(headers = headers,
                                                               samples = samples,
                                                               number_of_sensors = self.number_of_sensors)
-        
-    def nonlinearToLinear(self):
-        for i in range(0, self.number_of_sensors):
-            for j in range(0, self.number_of_samples):
-                x = float(self.samples[i][j])
-                magic_number = 1.0715*10**-3
-                self.samples[i][j] = int((x * magic_number) * math.exp(x * magic_number))
-

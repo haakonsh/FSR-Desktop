@@ -1,5 +1,6 @@
 try:
     import numpy as np
+    import panda as pd
 
 except ImportError as ie:
     print (str(ie))
@@ -13,7 +14,9 @@ except ValueError as e:
     input("Press any key to exit...")
     exit()
     
-SCALAR = -5.357143 * 10 ** (-3)
+SCALAR = -5.35 * 10 ** (-2.5)  # Magic number
+MAXVALUE = 300  # 300 represents the valid range in HSV color that we will use (60-360)
+
 
 def extractHeaders(byte_array, number_of_sensors, number_of_samples, header_length):
     """
@@ -58,45 +61,106 @@ def extractSamples(byte_array, number_of_sensors, number_of_samples, header_leng
             
             try:
                 samples[i] = np.frombuffer(data,
-                                                dtype = np.int16,
-                                                count = number_of_samples,
-                                                offset = offset)
-                samples[i] = samples[i] + 1400
-                # +/- 1400 is max/min values. Add 1400 to create a positive integer range.
-                # TODO Encountered values of +/- 1900 in the "dirty" PSR prototype
-                
+                                           dtype = np.int16,
+                                           count = number_of_samples,
+                                           offset = offset)
             except Exception as error:
                 raise RuntimeError('Could not copy data into numpy array. Error: %s' % error)
-
-            try:    # A filter that will scale the samples from non-linear to linear in the range 0-300
-                for k in range(0, number_of_samples):
-                    samples[i][k] = 300 * np.exp(SCALAR * samples[i][k])
-                
-            except Exception as error:
-                raise RuntimeError('Could not filter data. Error: %s' % error)
-            
-            # Averaging filter
-            try:
-                for j in range(0, number_of_samples):
-                    if j > 7:
-                        samples[i][j] = (samples[i][j] +
-                                         samples[i][j-1] +
-                                         samples[i][j-2] +
-                                         samples[i][j-3] +
-                                         samples[i][j-4] +
-                                         samples[i][j-5] +
-                                         samples[i][j-6] +
-                                         samples[i][j-7]) / 8
-                    
-            except Exception as error:
-                raise RuntimeError('Could not average the samples. Error: %s' % error)
-            
             
     except Exception as error:
         raise RuntimeError('Could not extract samples. Error: %s' % error)
     
     return samples
     
+def convertToUint16t(samples, number_of_sensors):
+    if samples[0].dtype != np.dtype(np.uint16):
+        try:
+            for i in range(0, number_of_sensors):
+                samples[i] = samples[i].astype(dtype = 'uint16',
+                                               order = 'C',
+                                               casting = 'unsafe',
+                                               copy = False)
+                try:
+                    assert (samples[i].dtype == np.dtype(np.uint16))
+                except AssertionError as error:
+                    raise RuntimeError('casted samples are not of dtype uint16. Assertion: %s' % error)
+        except Exception as error:
+            raise RuntimeError('Could not cast to uint16 . Error: %s' % error)
+        
+    return samples
+
+def UnityBasedNormalization(samples, number_of_sensors):
+    try:
+        for i in range(0, number_of_sensors):
+            assert (samples[i].dtype == np.dtype(np.int16))
+            for j in range(0, len(samples[i])):
+                samples[i][j] = MAXVALUE * (samples[i][j] - np.amin(samples[i])) / (np.amax(samples[i]) - np.amin(samples[i]))
+                # verify that samples are within range
+                assert ((samples[i][j] <= (MAXVALUE)) & (samples[i][j] >= 0))
+    
+    except Exception as error:
+        raise RuntimeError('Could not perform unity based normalization on the samples. Error: %s' % error)
+    
+    return samples
+
+
+def scaleSamples(samples, number_of_sensors):
+    # This filter tries to compensate for the inherent non-linearity of the sensor material by applying a logarithmic
+    # scalar.
+    try:
+        for i in range(0, number_of_sensors):
+            for k in range(0, len(samples[i])):
+                samples[i][k] = 300 * (1 - np.exp(SCALAR * samples[i][k]))  # Plot the equation by
+                # exchanging 'samples[i][k]' with 0 < X < 300
+                
+                # verify that samples are within range
+                assert ((samples[i][k] <= 300) & (samples[i][k] >= 0))
+
+    except Exception as error:
+        raise RuntimeError('Could not filter data. Error: %s' % error)
+    
+    return samples
+
+def averagingFilter(samples, number_of_sensors, width_of_filter):
+    try:
+        assert ((width_of_filter > 0) & (width_of_filter < number_of_sensors))
+    except AssertionError as error:
+        raise RuntimeError('Width of the averaging filter is not a valid number: \n'
+                           '0 < valid number < samples size. Assertion: %s' % error)
+    # This averaging filter casts to int32!
+    # This averaging filter removes a number of elements equal to its width.
+    # TODO Review the issue where the filter truncates the start or end of the array
+    try:
+        for i in range(0, number_of_sensors):
+            cumsum = np.cumsum(np.insert(samples[i], 0, 0))
+            samples[i] = (cumsum[width_of_filter:] - cumsum[:-width_of_filter]) / width_of_filter
+                
+            """if j > (width_of_filter - 1):
+                temp_sample = 0
+                for k in range(0, width_of_filter):
+                    temp_sample = temp_sample + samples[i][j - width_of_filter]
+
+                samples[i][j] = temp_sample/width_of_filter"""
+                
+    except Exception as error:
+        raise RuntimeError('Could not average the samples. Error: %s' % error)
+    
+    if samples[0].dtype != np.dtype(np.uint16):
+        try:
+            for i in range(0, number_of_sensors):
+                samples[i] = samples[i].astype(dtype = 'uint16',
+                                               order = 'C',
+                                               casting = 'unsafe',
+                                               copy = False)
+                try:
+                    assert (samples[i].dtype == np.dtype(np.uint16))
+                except AssertionError as error:
+                    raise RuntimeError('Converted samples are not of dtype uint16. Assertion: %s' % error)
+    
+        except Exception as error:
+            raise RuntimeError('Could not convert from int32 to uint16 . Error: %s' % error)
+    
+    return samples
     
 def mapDataToSensors(headers, samples, number_of_sensors):
     """

@@ -4,11 +4,13 @@
       <w>addr</w>
       <w>attre</w>
       <w>catched</w>
+      <w>dtype</w>
       <w>jlink</w>
       <w>nrfjprog</w>
       <w>pynrfjprog</w>
       <w>segger</w>
       <w>struct</w>
+      <w>uint</w>
     </words>
   </dictionary>
 </component>
