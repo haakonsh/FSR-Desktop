@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="477f9811-cf7c-416e-8ac8-a9a8560cb491" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/haho.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/haho.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FSR.py" afterPath="$PROJECT_DIR$/FSR.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/DataProcessing.py" afterPath="$PROJECT_DIR$/libs/DataProcessing.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/Device.py" afterPath="$PROJECT_DIR$/libs/Device.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/QtGUI.py" afterPath="$PROJECT_DIR$/libs/QtGUI.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +27,8 @@
       <file leaf-file-name="FSR.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FSR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="41" column="24" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
+            <state relative-caret-position="69">
+              <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#9#594#0" expanded="false" />
                 <element signature="e#115#246#0" expanded="false" />
@@ -56,8 +53,8 @@
       <file leaf-file-name="Device.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/Device.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="726">
-              <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
+            <state relative-caret-position="580">
+              <caret line="89" column="51" lean-forward="false" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
               <folding>
                 <element signature="e#124#375#0" expanded="false" />
                 <element signature="e#404#467#0" expanded="false" />
@@ -79,8 +76,8 @@
       <file leaf-file-name="DataProcessing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libs/DataProcessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="102" column="4" lean-forward="true" selection-start-line="102" selection-start-column="4" selection-end-line="102" selection-end-column="4" />
+            <state relative-caret-position="520">
+              <caret line="128" column="51" lean-forward="true" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
               <folding />
             </state>
           </provider>
@@ -416,11 +413,6 @@
           <line>41</line>
           <option name="timeStamp" value="307" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/libs/Device.py</url>
-          <line>95</line>
-          <option name="timeStamp" value="357" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -719,36 +711,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+    <entry file="file://$PROJECT_DIR$/libs/QtGUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="1025" column="0" lean-forward="false" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
+        <state relative-caret-position="307">
+          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FSR.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="41" column="24" lean-forward="false" selection-start-line="41" selection-start-column="24" selection-end-line="41" selection-end-column="24" />
-          <folding>
-            <element signature="e#9#594#0" expanded="false" />
-            <element signature="e#115#246#0" expanded="false" />
-            <element signature="e#427#527#0" expanded="false" />
-            <element signature="e#625#876#0" expanded="false" />
-            <element signature="e#905#968#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/Device.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
-          <folding>
-            <element signature="e#124#375#0" expanded="false" />
-            <element signature="e#404#467#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -760,18 +727,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/QtGUI.py">
+    <entry file="file://$PROJECT_DIR$/FSR.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+        <state relative-caret-position="69">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="e#9#594#0" expanded="false" />
+            <element signature="e#115#246#0" expanded="false" />
+            <element signature="e#427#527#0" expanded="false" />
+            <element signature="e#625#876#0" expanded="false" />
+            <element signature="e#905#968#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="1025" column="0" lean-forward="false" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/Device.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="580">
+          <caret line="89" column="51" lean-forward="false" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
+          <folding>
+            <element signature="e#124#375#0" expanded="false" />
+            <element signature="e#404#467#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/DataProcessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="102" column="4" lean-forward="true" selection-start-line="102" selection-start-column="4" selection-end-line="102" selection-end-column="4" />
+        <state relative-caret-position="520">
+          <caret line="128" column="51" lean-forward="true" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
           <folding />
         </state>
       </provider>

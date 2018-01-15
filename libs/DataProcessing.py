@@ -14,7 +14,7 @@ except ValueError as e:
     input("Press any key to exit...")
     exit()
     
-SCALAR = -5.35 * 10 ** (-2.5)  # Magic number
+SCALAR = -53.5  # Magic number
 MAXVALUE = 300  # 300 represents the valid range in HSV color that we will use (60-360)
 
 
@@ -94,9 +94,9 @@ def UnityBasedNormalization(samples, number_of_sensors):
         for i in range(0, number_of_sensors):
             assert (samples[i].dtype == np.dtype(np.int16))
             for j in range(0, len(samples[i])):
-                samples[i][j] = MAXVALUE * (samples[i][j] - np.amin(samples[i])) / (np.amax(samples[i]) - np.amin(samples[i]))
+                samples[i][j] = (samples[i][j] - np.amin(samples[i])) / (np.amax(samples[i]) - np.amin(samples[i]))
                 # verify that samples are within range
-                assert ((samples[i][j] <= (MAXVALUE)) & (samples[i][j] >= 0))
+                assert ((samples[i][j] >= 0) & (samples[i][j] <= 1))
     
     except Exception as error:
         raise RuntimeError('Could not perform unity based normalization on the samples. Error: %s' % error)
@@ -104,18 +104,33 @@ def UnityBasedNormalization(samples, number_of_sensors):
     return samples
 
 
-def scaleSamples(samples, number_of_sensors):
+def nonLinearityCompensation(samples, number_of_sensors):
     # This filter tries to compensate for the inherent non-linearity of the sensor material by applying a logarithmic
     # scalar.
     try:
         for i in range(0, number_of_sensors):
             for k in range(0, len(samples[i])):
-                samples[i][k] = 300 * (1 - np.exp(SCALAR * samples[i][k]))  # Plot the equation by
-                # exchanging 'samples[i][k]' with 0 < X < 300
+                samples[i][k] = 1 - np.exp(SCALAR * samples[i][k])  # Plot the equation by
+                # exchanging 'samples[i][k]' with 0 < X < 1
                 
                 # verify that samples are within range
-                assert ((samples[i][k] <= 300) & (samples[i][k] >= 0))
+                assert ((samples[i][k] >= 0) & (samples[i][k] <= 1))
 
+    except Exception as error:
+        raise RuntimeError('Could not filter data. Error: %s' % error)
+    
+    return samples
+
+def linearScaling(samples, number_of_sensors):
+    # This filter scales the samples by a linear scalar.
+    try:
+        for i in range(0, number_of_sensors):
+            for k in range(0, len(samples[i])):
+                samples[i][k] = 300 * samples[i][k]
+                
+                # verify that samples are within range
+                assert ((samples[i][k] >= 300) & (samples[i][k] <= 1))
+    
     except Exception as error:
         raise RuntimeError('Could not filter data. Error: %s' % error)
     

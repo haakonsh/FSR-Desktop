@@ -85,16 +85,18 @@ class Device(object):
         
         samples = process.UnityBasedNormalization(samples = samples,
                                                   number_of_sensors = self.number_of_sensors)
+
+        samples = process.nonLinearityCompensation(samples = samples,
+                                                   number_of_sensors = self.number_of_sensors)
         
         samples = process.convertToUint16t(samples = samples,
                                            number_of_sensors = self.number_of_sensors)
 
         samples = process.averagingFilter(samples = samples,
                                           number_of_sensors = self.number_of_sensors,
-                                          width_of_filter = 0)
+                                          width_of_filter = 4)
         
-        samples = process.scaleSamples(samples = samples,
-                                       number_of_sensors = self.number_of_sensors)
+        
 
         self.headers, self.samples = process.mapDataToSensors(headers = headers,
                                                               samples = samples,
