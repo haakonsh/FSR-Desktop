@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="477f9811-cf7c-416e-8ac8-a9a8560cb491" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/DataProcessing.py" afterPath="$PROJECT_DIR$/libs/DataProcessing.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libs/Device.py" afterPath="$PROJECT_DIR$/libs/Device.py" />
     </list>
@@ -17,8 +18,8 @@
       <file leaf-file-name="QtGUI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/QtGUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+            <state relative-caret-position="192">
+              <caret line="37" column="56" lean-forward="true" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -53,31 +54,31 @@
       <file leaf-file-name="Device.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/Device.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="89" column="51" lean-forward="false" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
+            <state relative-caret-position="308">
+              <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
               <folding>
-                <element signature="e#124#375#0" expanded="false" />
-                <element signature="e#404#467#0" expanded="false" />
+                <element signature="e#171#422#0" expanded="false" />
+                <element signature="e#451#514#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interface.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Interface.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/libs/Interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="818">
-              <caret line="104" column="34" lean-forward="false" selection-start-line="104" selection-start-column="29" selection-end-line="104" selection-end-column="34" />
+            <state relative-caret-position="-470">
+              <caret line="81" column="20" lean-forward="true" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataProcessing.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DataProcessing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/DataProcessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="128" column="51" lean-forward="true" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
+            <state relative-caret-position="590">
+              <caret line="208" column="78" lean-forward="true" selection-start-line="208" selection-start-column="78" selection-end-line="208" selection-end-column="78" />
               <folding />
             </state>
           </provider>
@@ -133,10 +134,10 @@
         <option value="$PROJECT_DIR$/Device.py" />
         <option value="$PROJECT_DIR$/libs/Interface.py" />
         <option value="$PROJECT_DIR$/DataProcessing.py" />
-        <option value="$PROJECT_DIR$/libs/QtGUI.py" />
         <option value="$PROJECT_DIR$/FSR.py" />
-        <option value="$PROJECT_DIR$/libs/Device.py" />
         <option value="$PROJECT_DIR$/libs/DataProcessing.py" />
+        <option value="$PROJECT_DIR$/libs/Device.py" />
+        <option value="$PROJECT_DIR$/libs/QtGUI.py" />
       </list>
     </option>
   </component>
@@ -413,6 +414,11 @@
           <line>41</line>
           <option name="timeStamp" value="307" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/libs/DataProcessing.py</url>
+          <line>147</line>
+          <option name="timeStamp" value="365" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -424,7 +430,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="363" />
+      <option name="time" value="369" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -711,19 +717,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/QtGUI.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+        <state relative-caret-position="288">
+          <caret line="1025" column="0" lean-forward="false" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/Interface.py">
+    <entry file="file://$PROJECT_DIR$/libs/Device.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="818">
-          <caret line="104" column="34" lean-forward="false" selection-start-line="104" selection-start-column="29" selection-end-line="104" selection-end-column="34" />
-          <folding />
+        <state relative-caret-position="308">
+          <caret line="34" column="42" lean-forward="true" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+          <folding>
+            <element signature="e#171#422#0" expanded="false" />
+            <element signature="e#451#514#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -741,29 +750,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+    <entry file="file://$PROJECT_DIR$/libs/QtGUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="1025" column="0" lean-forward="false" selection-start-line="1025" selection-start-column="0" selection-end-line="1025" selection-end-column="0" />
+        <state relative-caret-position="192">
+          <caret line="37" column="56" lean-forward="true" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/Device.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="89" column="51" lean-forward="false" selection-start-line="89" selection-start-column="51" selection-end-line="89" selection-end-column="51" />
-          <folding>
-            <element signature="e#124#375#0" expanded="false" />
-            <element signature="e#404#467#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/DataProcessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="128" column="51" lean-forward="true" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
+        <state relative-caret-position="590">
+          <caret line="208" column="78" lean-forward="true" selection-start-line="208" selection-start-column="78" selection-end-line="208" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/Interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-470">
+          <caret line="81" column="20" lean-forward="true" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
           <folding />
         </state>
       </provider>

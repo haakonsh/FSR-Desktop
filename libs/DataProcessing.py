@@ -92,11 +92,21 @@ def convertToUint16t(samples, number_of_sensors):
 def UnityBasedNormalization(samples, number_of_sensors):
     try:
         for i in range(0, number_of_sensors):
-            assert (samples[i].dtype == np.dtype(np.int16))
+    
+            samples[i] = samples[i].astype(dtype = 'float32',
+                                           order = 'C',
+                                           casting = 'unsafe',
+                                           copy = False)
+            
+            maxVal = np.amax(samples[i])
+            minVal = np.amin(samples[i])
+            
             for j in range(0, len(samples[i])):
-                samples[i][j] = (samples[i][j] - np.amin(samples[i])) / (np.amax(samples[i]) - np.amin(samples[i]))
+                
+                samples[i][j] = (samples[i][j] - minVal) / (maxVal - minVal)
+                
                 # verify that samples are within range
-                assert ((samples[i][j] >= 0) & (samples[i][j] <= 1))
+                assert ((samples[i][j] >= 0) & (samples[i][j] <= 1)), "Outside valid the valid range of 0 - 1"
     
     except Exception as error:
         raise RuntimeError('Could not perform unity based normalization on the samples. Error: %s' % error)
@@ -122,14 +132,15 @@ def nonLinearityCompensation(samples, number_of_sensors):
     return samples
 
 def linearScaling(samples, number_of_sensors):
-    # This filter scales the samples by a linear scalar.
+    # This filter scales the samples by a linear scalar. It is used by the GUI to represent the values 0 - 300
+    #  in the HSV colorspace.
     try:
         for i in range(0, number_of_sensors):
             for k in range(0, len(samples[i])):
                 samples[i][k] = 300 * samples[i][k]
                 
                 # verify that samples are within range
-                assert ((samples[i][k] >= 300) & (samples[i][k] <= 1))
+                assert ((samples[i][k] >= 0) & (samples[i][k] <= 300))
     
     except Exception as error:
         raise RuntimeError('Could not filter data. Error: %s' % error)
@@ -149,7 +160,7 @@ def averagingFilter(samples, number_of_sensors, width_of_filter):
         for i in range(0, number_of_sensors):
             cumsum = np.cumsum(np.insert(samples[i], 0, 0))
             samples[i] = (cumsum[width_of_filter:] - cumsum[:-width_of_filter]) / width_of_filter
-                
+            
             """if j > (width_of_filter - 1):
                 temp_sample = 0
                 for k in range(0, width_of_filter):

@@ -1,3 +1,5 @@
+from libs.DataProcessing import linearScaling
+
 try:
     import Interface
     from libs import DataProcessing as process
@@ -33,7 +35,7 @@ class Device(object):
         self.header_length = header_length
         self.read_address = read_address
         """
-        The packet structure is: | 4 bytes of headers | 2 bytes * number_of_samples |, for each sensor
+        The packet structure is: | 4 bytes of headers | 2 bytes * number_of_samples | for each sensor
         """
         self.read_length = (self.header_length + self.number_of_samples * 2) * self.number_of_samples
         
@@ -44,7 +46,6 @@ class Device(object):
 
         self.data_buffer = self.readDeviceData()
         self.processData(self.data_buffer)
-        # self.nonlinearToLinear()
 
     def interfaceInit(self):
         """
@@ -89,14 +90,15 @@ class Device(object):
         samples = process.nonLinearityCompensation(samples = samples,
                                                    number_of_sensors = self.number_of_sensors)
         
+        samples = process.linearScaling(samples = samples,
+                                        number_of_sensors = self.number_of_sensors)
+        
         samples = process.convertToUint16t(samples = samples,
                                            number_of_sensors = self.number_of_sensors)
 
         samples = process.averagingFilter(samples = samples,
                                           number_of_sensors = self.number_of_sensors,
                                           width_of_filter = 4)
-        
-        
 
         self.headers, self.samples = process.mapDataToSensors(headers = headers,
                                                               samples = samples,
