@@ -1,9 +1,10 @@
-from libs.DataProcessing import linearScaling
 
 try:
     import Interface
     from libs import DataProcessing as process
+    from libs import Plotter
     import math
+    import numpy as np
     
 except ImportError as ie:
     print (str(ie))
@@ -83,12 +84,36 @@ class Device(object):
                                          number_of_sensors = self.number_of_sensors,
                                          number_of_samples = self.number_of_samples,
                                          header_length = self.header_length)
-        
+                
         samples = process.UnityBasedNormalization(samples = samples,
                                                   number_of_sensors = self.number_of_sensors)
+        plt = Plotter.PlotObject()
+        
+        plt.addPlot(title = 'UnityBasedNormalization',
+                    xdata = samples[26],
+                    xlabel = 'Sample number',
+                    ylabel = 'Value',
+                    color = 'b')
 
         samples = process.nonLinearityCompensation(samples = samples,
                                                    number_of_sensors = self.number_of_sensors)
+        
+        plt.addPlot(title = 'nonLinearityCompensation',
+                    xdata = samples[26],
+                    xlabel = 'Sample number',
+                    ylabel = 'Value',
+                    color = 'g')
+        
+        plt.showPlot()
+        
+        x = np.arange(0.0, 1.0, 0.001)
+        y = np.arange(0.0, 1.0, 0.001)
+        for i in range(0, len(y)):
+            y[i] = 1 - np.exp(-5.35 * y[i])
+        
+        plt2 = Plotter.PlotObject()
+        plt2.addPlot2(xdata = x, ydata = y, title = 'Non-linear compensation curve')
+        plt2.showPlot()
         
         samples = process.linearScaling(samples = samples,
                                         number_of_sensors = self.number_of_sensors)

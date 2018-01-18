@@ -14,7 +14,7 @@ except ValueError as e:
     input("Press any key to exit...")
     exit()
     
-SCALAR = -53.5  # Magic number
+SCALAR = -5.35  # Magic number
 MAXVALUE = 300  # 300 represents the valid range in HSV color that we will use (60-360)
 
 
