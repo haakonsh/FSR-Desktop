@@ -34,12 +34,12 @@ def samplesToGui(device, qt_app = None):
         
         color_list = [0] * device.number_of_sensors
         
-        for i in range(0, len(device.samples[0])):
+        for i in range(0, len(device.sensorMappedSamples[0])):
             for j in range(0, device.number_of_sensors):
                 # 60 is added to the results in order to offset the HSV color. The HSV color RED is centered
                 # around 0/360, this poses a problem where the minimum and maximum values are equal in color.
                 # The fix is to offset the HSV value by 60.
-                hue = (device.samples[j][i]) + 60
+                hue = (device.sensorMappedSamples[j][i]) + 60
                 
                 temp_color = QtGui.QColor()
                 temp_color.setHsv(hue, 255, 255, 255)  # saturation[j][i], 255, 255)
@@ -64,8 +64,7 @@ class Window(QtGui.QMainWindow):
         self.number_of_sensors = number_of_hexagons
         self.number_of_samples = number_of_samples
         
-        
-        self.setUpdatesEnabled(True)    # Needed in order to trigger the paintEvent of a QWidget
+        self.setUpdatesEnabled(True)  # Needed in order to trigger the paintEvent of a QWidget
         self.setGeometry(100, 35, 750, 940)     # (pos x, pos y, width, height)
         self.setWindowTitle('MainWindow')
         

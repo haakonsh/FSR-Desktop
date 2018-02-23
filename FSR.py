@@ -5,6 +5,8 @@ try:
         input("Press any key to exit...")
         exit()
 
+    import numpy as np
+    from libs import Plotter
     from libs.Device import Device
     import libs.QtGUI as GUI
     import sys
@@ -27,9 +29,9 @@ except ValueError as e:
     exit()
 
 NUMBER_OF_SENSORS = 36
-NUMBER_OF_SAMPLES = 512
+NUMBER_OF_SAMPLES = 1
 HEADER_LENGTH = 4  # Header length in bytes, given by the C struct 'fsr_field_t, 3 bytes payload and 1 byte padding
-ADDRESS = 0x0040000  # Address in device flash where the FSR structure is located.
+ADDRESS = 0x20000158  # Address in device memory where the FSR structure is located.
 
 
 if __name__ == '__main__':
@@ -38,10 +40,12 @@ if __name__ == '__main__':
                     number_of_samples = NUMBER_OF_SAMPLES,
                     header_length = HEADER_LENGTH,
                     read_address = ADDRESS)
+
+    # Plotter.PlotObject(device)
     
     application = GUI.guiAppInit()
     window = GUI.Window(number_of_hexagons = device.number_of_sensors,
-                        number_of_samples = len(device.samples[0]))
+                        number_of_samples = len(device.sensorMappedSamples[0]))
     
     GUI.samplesToGui(device = device,
                      qt_app = window,)

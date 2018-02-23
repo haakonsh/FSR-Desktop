@@ -38,10 +38,19 @@ class Device(object):
         """
         The packet structure is: | 4 bytes of headers | 2 bytes * number_of_samples | for each sensor
         """
-        self.read_length = (self.header_length + self.number_of_samples * 2) * self.number_of_samples
+        self.read_length = (self.header_length + self.number_of_samples * 2) * self.number_of_sensors
         
         self.samples = []  # A list of numpy arrays, containing the samples of numpy.int16 type
+        self.sensorMappedSamples = []
         self.headers = [0 for n in range(0, self.number_of_sensors)]
+        
+        self.unityBasedNormalized = []
+        self.nonLinearityCompensated = []
+        self.linearlyScaled = []
+        self.averaged = []
+        self.typeConverted = []
+        
+        self.nonLinearityCompensationCurve = ''
         
         self.interface = self.interfaceInit()
 
@@ -80,51 +89,27 @@ class Device(object):
                                          number_of_samples = self.number_of_samples,
                                          header_length = self.header_length)
         
-        samples = process.extractSamples(byte_array = data,
-                                         number_of_sensors = self.number_of_sensors,
-                                         number_of_samples = self.number_of_samples,
-                                         header_length = self.header_length)
-                
-        samples = process.UnityBasedNormalization(samples = samples,
-                                                  number_of_sensors = self.number_of_sensors)
-        plt = Plotter.PlotObject()
-        
-        plt.addPlot(title = 'UnityBasedNormalization',
-                    xdata = samples[26],
-                    xlabel = 'Sample number',
-                    ylabel = 'Value',
-                    color = 'b')
+        self.samples = process.extractSamples(byte_array = data,
+                                              number_of_sensors = self.number_of_sensors,
+                                              number_of_samples = self.number_of_samples,
+                                              header_length = self.header_length)
 
-        samples = process.nonLinearityCompensation(samples = samples,
-                                                   number_of_sensors = self.number_of_sensors)
-        
-        plt.addPlot(title = 'nonLinearityCompensation',
-                    xdata = samples[26],
-                    xlabel = 'Sample number',
-                    ylabel = 'Value',
-                    color = 'g')
-        
-        plt.showPlot()
-        
-        x = np.arange(0.0, 1.0, 0.001)
-        y = np.arange(0.0, 1.0, 0.001)
-        for i in range(0, len(y)):
-            y[i] = 1 - np.exp(-5.35 * y[i])
-        
-        plt2 = Plotter.PlotObject()
-        plt2.addPlot2(xdata = x, ydata = y, title = 'Non-linear compensation curve')
-        plt2.showPlot()
-        
-        samples = process.linearScaling(samples = samples,
-                                        number_of_sensors = self.number_of_sensors)
-        
-        samples = process.convertToUint16t(samples = samples,
-                                           number_of_sensors = self.number_of_sensors)
+        self.unityBasedNormalized = process.UnityBasedNormalization(samples = self.samples,
+                                                                    number_of_sensors = self.number_of_sensors)
 
-        samples = process.averagingFilter(samples = samples,
-                                          number_of_sensors = self.number_of_sensors,
-                                          width_of_filter = 4)
+        self.nonLinearityCompensated, self.nonLinearityCompensationCurve = process.nonLinearityCompensation(samples = self.unityBasedNormalized,
+                                                                                                            number_of_sensors = self.number_of_sensors)
 
-        self.headers, self.samples = process.mapDataToSensors(headers = headers,
-                                                              samples = samples,
-                                                              number_of_sensors = self.number_of_sensors)
+        self.averaged = process.averagingFilter(samples = self.nonLinearityCompensated,
+                                                number_of_sensors = self.number_of_sensors,
+                                                width_of_filter = 3)
+        
+        self.linearlyScaled = process.linearScaling(samples = self.averaged,
+                                                    number_of_sensors = self.number_of_sensors)
+        
+        self.typeConverted = process.convertToUint16t(samples = self.linearlyScaled,
+                                                      number_of_sensors = self.number_of_sensors)
+
+        self.headers, self.sensorMappedSamples = process.mapDataToSensors(headers = headers,
+                                                                          samples = self.typeConverted,
+                                                                          number_of_sensors = self.number_of_sensors)
