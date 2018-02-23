@@ -54,8 +54,9 @@ class Device(object):
         
         self.interface = self.interfaceInit()
 
-        self.data_buffer = self.readDeviceData()
-        self.processData(self.data_buffer)
+        #TODO fix read procedure
+        # self.data_buffer = self.readDeviceData()
+        # self.processData(self.data_buffer)
 
     def interfaceInit(self):
         """
